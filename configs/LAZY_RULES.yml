@@ -1,0 +1,32 @@
+custom:
+  enable_rule_generator: true
+  overwrite_original_rules: true
+  
+  proxy_groups:
+  - {name: "🚀 节点选择", type: select, rule: ["[]♻️ 自动选择",".*"]}
+  - {name: "♻️ 自动选择", type: url-test, rule: [".*"], url: http://www.gstatic.com/generate_204, interval: 300, tolerance: 50, timeout: 5}
+  - {name: "📲 电报", type: select, rule: ["[]🚀 节点选择",".*"]}
+  - {name: "💬 推特", type: select, rule: ["[]🚀 节点选择",".*"]}
+  - {name: "📹 油管视频", type: select, rule: ["[]🚀 节点选择",".*"]}
+  - {name: "💻 奈飞视频", type: select, rule: ["[]🚀 节点选择","(NF|奈飞|流媒体|解锁|Netflix|NETFLIX|Media|UNLOCK|解鎖|流媒體|奈飛)"]}
+  - {name: "🚫 广告拦截", type: select, rule: ["[]🚀 节点选择","[]REJECT"]}
+  - {name: "🐟 漏网之鱼", type: select, rule: ["[]🚀 节点选择","[]DIRECT"]}
+
+  rulesets:
+  - {ruleset: "https://github.com/ACL4SSR/ACL4SSR/blob/master/Clash/BanProgramAD.list?raw=true", group: "🚫 广告拦截"}
+  - {ruleset: "https://github.com/d2184/rules/blob/release/list/Telegram.list?raw=true", group: "📲 电报"}
+  - {ruleset: "https://github.com/d2184/rules/blob/release/list/Twitter.list?raw=true", group: "💬 推特"}
+  - {ruleset: "https://github.com/d2184/rules/blob/release/list/Youtube.list?raw=true", group: "📹 油管视频"}
+  - {ruleset: "https://github.com/d2184/rules/blob/release/list/Netflix.list?raw=true", group: "💻 奈飞视频"}
+  - {ruleset: "https://github.com/d2184/rules/blob/release/list/Speedtest.list?raw=true",group: "🚀 节点选择"}
+  - {ruleset: "https://github.com/d2184/rules/blob/release/list/Bilibili.list?raw=true", group: "DIRECT"}
+  - {ruleset: "https://github.com/d2184/rules/blob/release/list/Microsoft.list?raw=true", group: "DIRECT"}
+  - {ruleset: "https://github.com/d2184/rules/blob/release/list/Apple.list?raw=true", group: "DIRECT"}
+  - {ruleset: "https://github.com/Skyxim/Rules/blob/main/China/China_Domain.list?raw=true", group: "DIRECT"}
+  - {ruleset: "https://github.com/d2184/rules/blob/release/Lan.list?raw=true", group: "DIRECT"}
+  - {rule: "GEOIP,CN", group: "DIRECT"}
+  - {rule: "FINAL", group: "🐟 漏网之鱼"}
+  
+  clash_rule_base : "https://github.com/d2184/rules/blob/main/configs/clash_rule_base.yml?raw=true"
+  surfboard_rule_base : "https://github.com/d2184/rules/blob/main/configs/surfboard_rule_base.conf?raw=true"
+  surge_rule_base : "https://github.com/d2184/rules/blob/main/configs/surfboard_rule_base.conf?raw=true"

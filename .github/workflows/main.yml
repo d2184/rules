@@ -1,0 +1,156 @@
+name: Generate Clash Rule Providers And lists
+
+on:
+  push:
+    branches: [ main ]
+
+  workflow_dispatch:
+ 
+  schedule:
+    - cron: '0 0 * * *'
+    
+jobs:
+  build:
+    name: Generate Clash Rule Providers And lists
+    runs-on: ubuntu-latest
+    steps:
+    
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+    
+    - name: Create dist folder
+      run: mkdir -p dist
+      
+    - name: Obtain Original Rule Profiles
+      run: |
+        curl -LR -o- "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Apple/Apple.yaml" | grep -v "#" > dist/apple.yaml
+        curl -LR -o- "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/BiliBili/BiliBili.yaml" | grep -v "#" > dist/bilibili.yaml
+        curl -LR -o- "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/GitHub/GitHub.yaml" | grep -v "#" > dist/github.yaml
+        curl -LR -o- "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Google/Google.yaml" | grep -v "#" > dist/google.yaml
+        curl -LR -o- "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Lan/Lan.yaml" | grep -v "#" > dist/lan.yaml 
+        curl -LR -o- "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Microsoft/Microsoft.yaml" | grep -v "#" > dist/microsoft.yaml
+        curl -LR -o- "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Netflix/Netflix.yaml" | grep -v "#" > dist/netflix.yaml
+        curl -LR -o- "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Speedtest/Speedtest.yaml" | grep -v "#" > dist/speedtest.yaml
+        curl -LR -o- "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Telegram/Telegram.yaml" | grep -v "#" > dist/telegram.yaml
+        curl -LR -o- "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Twitter/Twitter.yaml" | grep -v "#" > dist/twitter.yaml
+        curl -LR -o- "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/YouTube/YouTube.yaml" | grep -v "#" > dist/youtube.yaml
+
+        curl -LR -o- "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Surge/Apple/Apple.list" | grep -v "#" > dist/apple.list
+        curl -LR -o- "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Surge/BiliBili/BiliBili.list" | grep -v "#" > dist/bilibili.list
+        curl -LR -o- "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Surge/GitHub/GitHub.list" | grep -v "#" > dist/github.list
+        curl -LR -o- "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Surge/Google/Google.list" | grep -v "#" > dist/google.list
+        curl -LR -o- "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Surge/Lan/Lan.list" | grep -v "#" > dist/lan.list 
+        curl -LR -o- "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Surge/Microsoft/Microsoft.list" | grep -v "#" > dist/microsoft.list
+        curl -LR -o- "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Surge/Netflix/Netflix.list" | grep -v "#" > dist/netflix.list
+        curl -LR -o- "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Surge/Speedtest/Speedtest.list" | grep -v "#" > dist/speedtest.list
+        curl -LR -o- "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Surge/Telegram/Telegram.list" | grep -v "#" > dist/telegram.list
+        curl -LR -o- "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Surge/Twitter/Twitter.list" | grep -v "#" > dist/twitter.list
+        curl -LR -o- "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Surge/YouTube/YouTube.list" | grep -v "#" > dist/youtube.list
+        
+    - name: Processing Profiles
+      run: |
+        sed -i '/PROCESS-NAME/d;/IP-CIDR/ s/$/,no-resolve/' dist/apple.yaml
+        cat dist/apple.yaml | sed "/^$/d" > dist/Apple.yaml
+        sed -i '/PROCESS-NAME/d;/IP-CIDR/ s/$/,no-resolve/' dist/bilibili.yaml
+        cat dist/bilibili.yaml | sed "/^$/d" > dist/BiliBili.yaml
+        sed -i '/PROCESS-NAME/d;/IP-CIDR/ s/$/,no-resolve/' dist/github.yaml
+        cat dist/github.yaml | sed "/^$/d" > dist/GitHub.yaml
+        sed -i '/PROCESS-NAME/d;/IP-CIDR/ s/$/,no-resolve/' dist/google.yaml
+        cat dist/google.yaml | sed "/^$/d" > dist/Google.yaml
+        sed -i '/PROCESS-NAME/d;/IP-CIDR/ s/$/,no-resolve/' dist/lan.yaml
+        cat dist/lan.yaml | sed "/^$/d" > dist/Lan.yaml
+        sed -i '/PROCESS-NAME/d;/IP-CIDR/ s/$/,no-resolve/' dist/microsoft.yaml
+        cat dist/microsoft.yaml | sed "/^$/d" > dist/Microsoft.yaml
+        sed -i '/PROCESS-NAME/d;/IP-CIDR/ s/$/,no-resolve/' dist/netflix.yaml
+        cat dist/netflix.yaml | sed "/^$/d" > dist/Netflix.yaml
+        sed -i '/PROCESS-NAME/d;/IP-CIDR/ s/$/,no-resolve/' dist/speedtest.yaml
+        cat dist/speedtest.yaml | sed "/^$/d" > dist/Speedtest.yaml
+        sed -i '/PROCESS-NAME/d;/IP-CIDR/ s/$/,no-resolve/' dist/telegram.yaml
+        cat dist/telegram.yaml | sed "/^$/d" > dist/Telegram.yaml
+        sed -i '/PROCESS-NAME/d;/IP-CIDR/ s/$/,no-resolve/' dist/twitter.yaml
+        cat dist/twitter.yaml | sed "/^$/d" > dist/Twitter.yaml
+        sed -i '/PROCESS-NAME/d;/IP-CIDR/ s/$/,no-resolve/' dist/youtube.yaml
+        cat dist/youtube.yaml | sed "/^$/d" > dist/Youtube.yaml
+
+        sed -i '/PROCESS-NAME/d;/USER-AGENT/d' dist/apple.list
+        cat dist/apple.list | sed "/^$/d" > dist/Apple.list
+        sed -i '/PROCESS-NAME/d;/USER-AGENT/d' dist/bilibili.list
+        cat dist/bilibili.list | sed "/^$/d" > dist/BiliBili.list
+        sed -i '/PROCESS-NAME/d;/USER-AGENT/d' dist/github.list
+        cat dist/github.list | sed "/^$/d" > dist/GitHub.list
+        sed -i '/PROCESS-NAME/d;/USER-AGENT/d' dist/google.list
+        cat dist/google.list | sed "/^$/d" > dist/Google.list
+        sed -i '/PROCESS-NAME/d;/USER-AGENT/d' dist/lan.list
+        cat dist/lan.list | sed "/^$/d" > dist/Lan.list
+        sed -i '/PROCESS-NAME/d;/USER-AGENT/d' dist/microsoft.list
+        cat dist/microsoft.list | sed "/^$/d" > dist/Microsoft.list
+        sed -i '/PROCESS-NAME/d;/USER-AGENT/d' dist/netflix.list
+        cat dist/netflix.list | sed "/^$/d" > dist/Netflix.list
+        sed -i '/PROCESS-NAME/d;/USER-AGENT/d' dist/speedtest.list
+        cat dist/speedtest.list | sed "/^$/d" > dist/Speedtest.list
+        sed -i '/PROCESS-NAME/d;/USER-AGENT/d' dist/telegram.list
+        cat dist/telegram.list | sed "/^$/d" > dist/Telegram.list
+        sed -i '/PROCESS-NAME/d;/USER-AGENT/d' dist/twitter.list
+        cat dist/twitter.list | sed "/^$/d" > dist/Twitter.list
+        sed -i '/PROCESS-NAME/d;/USER-AGENT/d' dist/youtube.list
+        cat dist/youtube.list | sed "/^$/d" > dist/Youtube.list  
+        
+    - name: Push artifacts to release branch
+      run: |
+        git config --local user.name "${{ github.actor }}"
+        git config --local user.email "${{ github.actor }}@users.noreply.github.com"
+        
+        git fetch
+        git checkout release
+        
+        git checkout --orphan release-orphan
+        git rm -rf .
+
+        mkdir -p lists
+        cp -rf dist/Apple.list ./lists
+        cp -rf dist/BiliBili.list ./lists
+        cp -rf dist/GitHub.list ./lists
+        cp -rf dist/Google.list ./lists
+        cp -rf dist/Lan.list ./lists
+        cp -rf dist/Microsoft.list ./lists
+        cp -rf dist/Netflix.list ./lists
+        cp -rf dist/Speedtest.list ./lists
+        cp -rf dist/Telegram.list ./lists
+        cp -rf dist/Twitter.list ./lists
+        cp -rf dist/Youtube.list ./lists
+        
+        cp -rf dist/Apple.yaml ./
+        cp -rf dist/BiliBili.yaml ./
+        cp -rf dist/GitHub.yaml ./
+        cp -rf dist/Google.yaml ./
+        cp -rf dist/Lan.yaml ./
+        cp -rf dist/Microsoft.yaml ./
+        cp -rf dist/Netflix.yaml ./
+        cp -rf dist/Speedtest.yaml ./
+        cp -rf dist/Telegram.yaml ./
+        cp -rf dist/Twitter.yaml ./
+        cp -rf dist/Youtube.yaml ./
+        
+        git add lists/
+        git add Apple.yaml
+        git add BiliBili.yaml
+        git add Lan.yaml
+        git add Microsoft.yaml
+        git add Netflix.yaml
+        git add GitHub.yaml
+        git add Google.yaml
+        git add Speedtest.yaml
+        git add Telegram.yaml
+        git add Twitter.yaml
+        git add Youtube.yaml
+        git commit -am "Updated at $(date)"
+        
+        git branch -D release
+        git branch -m release
+        
+    - name: GitHub Push
+      uses: ad-m/github-push-action@v0.6.0
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: release
+        force: true
