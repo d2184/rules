@@ -29,4 +29,4 @@ custom:
   
   clash_rule_base : "https://github.com/d2184/rules/blob/main/configs/clash_rule_base.yml?raw=true"
   surfboard_rule_base : "https://github.com/d2184/rules/blob/main/configs/surfboard_rule_base.conf?raw=true"
-  surge_rule_base : "https://github.com/d2184/rules/blob/main/configs/surfboard_rule_base.conf?raw=true"
+  surge_rule_base : "https://github.com/d2184/rules/blob/main/configs/surge_rule_base.conf?raw=true"

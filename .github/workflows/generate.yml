@@ -1,22 +1,25 @@
-name: Generate Clash Rule Providers And lists
+name: Generate Clash Rule Providers And Lists
 
 on:
-  push:
-    branches: [ main ]
-
   workflow_dispatch:
  
   schedule:
-    - cron: '0 0 * * *'
+    - cron: '20 10 * * *'
+
+env: 
+  TZ: Asia/Shanghai
     
 jobs:
-  build:
-    name: Generate Clash Rule Providers And lists
+  Generate:
+    name: Generate Clash Rule Providers And Lists
     runs-on: ubuntu-latest
     steps:
     
     - name: Checkout Repository
       uses: actions/checkout@v2
+
+    - name: Set Timezone
+      run: sudo timedatectl set-timezone 'Asia/Shanghai'
     
     - name: Create dist folder
       run: mkdir -p dist
@@ -143,7 +146,7 @@ jobs:
         git add Telegram.yaml
         git add Twitter.yaml
         git add Youtube.yaml
-        git commit -am "Updated at $(date)"
+        git commit -m "Last Updated $(date '+%Y-%m-%d %H:%M:%S')"
         
         git branch -D release
         git branch -m release
